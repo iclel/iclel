@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doğum Günün Kutlu Olsun İclel</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fdf6e3;
+      text-align: center;
+      padding: 5vw;
+      color: #2c3e50;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 6vw;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #e67e22;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 4vw;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #d35400;
+    }
+
+    #nahImage {
+      width: 40vw;
+      max-width: 200px;
+      margin: 30px auto 0;
+      display: none;
+    }
+
+    #joke {
+      font-size: 4vw;
+      margin-top: 20px;
+      display: none;
+    }
+
+    #report {
+      margin-top: 30px;
+      background: #fce4ec;
+      padding: 20px;
+      border-radius: 12px;
+      display: none;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 500px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      font-size: 3.5vw;
+    }
+
+    #secondButton {
+      display: none;
+    }
+
+    #heartSection {
+      display: none;
+      margin-top: 30px;
+    }
+
+    #heartAnimation {
+      font-size: 50vw;
+      color: #e74c3c;
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    .fadeOut {
+      opacity: 0;
+      transition: opacity 0.8s ease-out;
+    }
+
+    @media (min-width: 768px) {
+      h1 { font-size: 32px; }
+      button { font-size: 18px; }
+      #joke { font-size: 20px; }
+      #report { font-size: 16px; }
+      #heartAnimation { font-size: 180px; max-width: 400px; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+  <div id="heartSection">
+  <div><img id="heartAnimation" src="iclel.jpg" alt="Nah hand gesture" /></div>
+  </div>
+
+  <h1 id="mainTitle">Doğum günün kutlu olsun :) </h1>
+  <button onclick="triggerFirstStage()" id="firstButton">Tıkla bakalım</button>
+
+  <p id="joke"></p>
+  <div><img id="nahImage" src="https://i.hizliresim.com/LyoPgz.png" alt="Nah hand gesture" /></div>
+
+  <div id="report">
+    Yeni fıtığın hayırlı olsun
+  </div>
+
+  <button id="secondButton" onclick="triggerSecondStage()">Şaka şaka, iyi ki varsın :)</button>
+
+  <!-- Sesler -->
+  <audio id="sound1" src="https://www.myinstants.com/media/sounds/fireworks.mp3"></audio>
+  <audio id="sound3" src="iclel.mp3"></audio>
+
+  <script>
+    const jokes = [
+      ""
+    ];
+
+    function triggerFirstStage() {
+      document.getElementById("firstButton").style.display = "none";
+
+      const jokeEl = document.getElementById("joke");
+      jokeEl.innerText = jokes[Math.floor(Math.random() * jokes.length)];
+      jokeEl.style.display = "block";
+
+      document.getElementById("nahImage").style.display = "block";
+      document.getElementById("report").style.display = "block";
+      document.getElementById("sound1").play();
+      document.getElementById("secondButton").style.display = "inline-block";
+    }
+
+    function triggerSecondStage() {
+      // Görsel elemanları gizle
+      document.getElementById("mainTitle").classList.add("fadeOut");
+      document.getElementById("joke").classList.add("fadeOut");
+      document.getElementById("nahImage").classList.add("fadeOut");
+      document.getElementById("report").classList.add("fadeOut");
+      document.getElementById("secondButton").classList.add("fadeOut");
+
+      // Sesleri sırayla çal
+      document.getElementById("sound1").pause();
+      document.getElementById("sound1").currentTime = 0;
+
+      setTimeout(() => {
+        document.getElementById("sound3").play(); // happy birthday
+      }, 1000);
+
+      // Kalbi göster
+      setTimeout(() => {
+        document.getElementById("heartSection").style.display = "block";
+      }, 800);
+
+      // Konfeti başlat
+      launchConfetti();
+    }
+
+    function launchConfetti() {
+      var duration = 2 * 1000;
+      var end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 }
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 }
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }
+  </script>
+</body>
+</html>
